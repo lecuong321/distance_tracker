@@ -38,7 +38,8 @@ defmodule DistanceTracker.Mixfile do
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:uuid, "~> 1.1"}
     ]
   end
 

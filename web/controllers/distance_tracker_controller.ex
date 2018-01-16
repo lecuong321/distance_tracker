@@ -21,7 +21,7 @@ defmodule DistanceTracker.TrackerController do
 	end
 
 	def create(conn, params) do
-		{:ok, date} = NaiveDateTime.from_iso8601(params["completed_at"])
+		#{:ok, date} = NaiveDateTime.from_iso8601(params["completed_at"])
 		# use NaiveDateTime voi params
 		#  "distance": 1400,
 		#	  "activity": "swimming5",
@@ -36,8 +36,11 @@ defmodule DistanceTracker.TrackerController do
 		#}
 		#{:ok, datetime, 0} = DateTime.from_iso8601("2015-01-23T23:50:07Z")
 		#https://hexdocs.pm/elixir/DateTime.html#content
-  
-  		params = %{params | "completed_at" => date}
+  		
+  		date = parse_date(params["completed_at"])
+		params = Map.put(params, "completed_at", date)
+
+  		#params = %{params | "completed_at" => date}
 
 		changeset = Tracker.changeset(%Tracker{}, params)
 
@@ -67,6 +70,13 @@ defmodule DistanceTracker.TrackerController do
 	  end
 	end
 
+	defp parse_date(nil), do: nil
 	
-
+  	defp parse_date(date_as_string) do
+	    with {:ok, date, _} <- DateTime.from_iso8601(date_as_string) do
+	      date
+	    else
+	      _ -> nil
+	    end
+  	end
 end
