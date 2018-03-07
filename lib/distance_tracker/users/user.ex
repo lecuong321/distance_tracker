@@ -1,8 +1,9 @@
 defmodule DistanceTracker.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias DistanceTracker.Users.User
 
+  alias DistanceTracker.Repo
+  alias DistanceTracker.Users.User
 
   schema "users" do
     field :email, :string
@@ -52,6 +53,19 @@ defmodule DistanceTracker.Users.User do
         put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(password))
       _ ->
         changeset
+    end
+  end
+
+  def find_and_confirm_password(email, password) do
+    case Repo.get_by(User, email: email) do
+      nil ->
+        {:error, :not_found}
+      user ->
+        if Comeonin.Bcrypt.checkpw(password, user.password_hash) do
+          {:ok, user}
+        else
+          {:error, :unauthorized}
+        end
     end
   end
 

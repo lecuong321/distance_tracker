@@ -37,10 +37,25 @@ defmodule DistanceTracker.Router do
     }
   end
 
+  #scope "/api/v1", DistanceTracker do
+    #pipe_through :api
+
+    # Khong co auth vi nam tren pipe_through :authenticated 
+    #post "/register", RegistrationController, :sign_up
+
+    #pipe_through :authenticated # restrict unauthenticated access for routes below
+
+    # co Auth vi nam duoi pipe_through :authenticated 
+    #resources "/users", UserController, except: [:new, :edit]  
+  #end
+
   scope "/api/v1", DistanceTracker do
     pipe_through :api
 
-    pipe_through :authenticated # restrict unauthenticated access for routes below
+    post "/register", RegistrationController, :sign_up
+    post "/login", SessionController, :sign_in # Add this line
+
+    pipe_through :authenticated
     resources "/users", UserController, except: [:new, :edit]
   end
 
