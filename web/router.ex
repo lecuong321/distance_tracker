@@ -1,8 +1,14 @@
 defmodule DistanceTracker.Router do
   use DistanceTracker.Web, :router
 
+  pipeline :authenticated do
+    #plug Guardian.Plug.EnsureAuthenticated
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
+    #plug Guardian.Plug.VerifyHeader
+    #plug Guardian.Plug.LoadResource
   end
 
   scope "/swagger" do
@@ -31,5 +37,11 @@ defmodule DistanceTracker.Router do
     }
   end
 
-  resources "/users", UserController
+  scope "/api/v1", DistanceTracker do
+    pipe_through :api
+
+    pipe_through :authenticated # restrict unauthenticated access for routes below
+    resources "/users", UserController, except: [:new, :edit]
+  end
+
 end

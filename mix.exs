@@ -20,7 +20,8 @@ defmodule DistanceTracker.Mixfile do
   def application do
     [
       mod: {DistanceTracker, []},
-      extra_applications: [:logger]
+      extra_applications: [:logger],
+      applications: [:comeonin]
     ]
   end
 
@@ -42,7 +43,9 @@ defmodule DistanceTracker.Mixfile do
       {:uuid, "~> 1.1"},
       {:phoenix_swagger, "~> 0.6.2"},
       {:cors_plug, "~> 1.4"},
-      {:ex_json_schema, "~> 0.5.1"}
+      {:ex_json_schema, "~> 0.5.1"},
+      {:guardian, "~> 0.14"},
+      {:comeonin, "~> 3.0"} # Add comeonin to dependencies
     ]
   end
 
