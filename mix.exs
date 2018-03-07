@@ -20,8 +20,13 @@ defmodule DistanceTracker.Mixfile do
   def application do
     [
       mod: {DistanceTracker, []},
-      extra_applications: [:logger],
-      applications: [:comeonin]
+      extra_applications: [:logger]
+    ]
+  end
+
+  def application do
+    [
+      applications: [:comeonin]  #Add comeonin to OTP application
     ]
   end
 
